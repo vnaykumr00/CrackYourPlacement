@@ -1,0 +1,45 @@
+class Solution {
+    public int calculate(String s) {
+        if(s.length() == 0 || s == null) {
+            return 0;
+        }    
+
+        char lastSign = '+';
+        int currNum = 0;
+        int prevNum = 0;
+        int sum = 0;
+        char[] ch = s.toCharArray();
+        for(int i = 0; i<s.length(); i++) {
+            if(Character.isDigit(ch[i])) {
+                currNum *= 10;
+                currNum += ch[i] - '0';
+            }  
+            if(!Character.isDigit(ch[i]) && ch[i] != ' ' || i == s.length()-1 ) {
+                switch(lastSign) {
+                    case '+':
+                    sum += prevNum;
+                    prevNum = currNum;
+                    break;
+
+                    case '-':
+                    sum += prevNum;
+                    prevNum = -currNum;
+                    break;
+
+                    case '*':
+                    prevNum *= currNum;
+                    break;
+
+                    case '/':
+                    prevNum /= currNum;
+                    break;
+                }
+                lastSign = ch[i];
+                currNum = 0;
+            }
+        }
+
+        sum += prevNum;
+        return sum;
+    }
+}
