@@ -1,0 +1,30 @@
+class Solution {
+    static ArrayList<ArrayList<Integer>> uniquePerms(ArrayList<Integer> arr , int n) {
+        // code here
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        ArrayList<Integer> temp = new ArrayList<>();
+        boolean[] visited = new boolean[n];
+        Collections.sort(arr);
+        backtrack(result, temp, arr, visited, n);
+        return result;
+        
+        
+    }
+     static void backtrack(ArrayList<ArrayList<Integer>> result, ArrayList<Integer> temp, ArrayList<Integer> arr, boolean[] visited, int n) {
+        if (temp.size() == n) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (visited[i] || (i > 0 && arr.get(i).equals(arr.get(i - 1)) && !visited[i - 1])) {
+                continue;
+            }
+            visited[i] = true;
+            temp.add(arr.get(i));
+            backtrack(result, temp, arr, visited, n);
+            visited[i] = false;
+            temp.remove(temp.size() - 1);
+        }
+    }
+};
