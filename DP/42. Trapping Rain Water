@@ -1,0 +1,33 @@
+class Solution {
+    public int trap(int[] height) {
+        int n=height.length;
+       int r[]=new int[n];
+       int l[]=new int[n];
+       int ll=height[0];
+       int rr=height[n-1];
+       int m=0,sum=0;
+       for(int i=0;i<n;i++){
+           if(height[i]>ll)
+                {l[i]=height[i];
+                ll=height[i];
+                }
+            else
+                l[i]=ll;
+       } 
+       for(int i=n-1;i>=0;i--){
+           if(height[i]>rr)
+                {r[i]=height[i];
+                 rr=height[i];
+                }
+            else
+                r[i]=rr;
+       } 
+       for(int i=0;i<n;i++){
+           m=Math.min(l[i],r[i]);
+           if(m-height[i]>0){
+               sum+=m-height[i];
+           }
+       }
+       return sum;
+    }
+}
