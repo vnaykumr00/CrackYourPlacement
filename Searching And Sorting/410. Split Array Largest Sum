@@ -1,0 +1,42 @@
+class Solution {
+    public int splitArray(int[] nums, int k) {
+        int low = Integer.MIN_VALUE, high =0, mid, ans= Integer.MAX_VALUE;
+        
+        for(int i=0; i<nums.length;i++)
+        {
+            low = Math.max(low, nums[i]);
+            high += nums[i];
+        }
+        
+        while(low<=high)
+        {
+            mid = (low+high)/2;
+            if(isPossible(nums,k,mid))
+            {
+                ans = Math.min(ans,mid);
+                high = mid-1;
+            }
+            else
+            {
+                low = mid+1;
+            }
+        }
+        return ans;
+    }
+    
+    public boolean isPossible(int[] nums, int k, int mid)
+    {
+        int sum =0;
+        int count =1;
+        for(int i=0; i< nums.length;i++)
+        {
+            sum += nums[i];
+            if(sum> mid)
+            {
+                count++;
+                sum = nums[i];
+            }
+        }
+        return k>= count;
+    }
+}
