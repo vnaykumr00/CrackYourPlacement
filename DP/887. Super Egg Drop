@@ -1,0 +1,53 @@
+class Solution {
+    // Memoization cache to hold the results of subproblems
+    private int[][] memo;
+
+    // Entry method for calculating the minimum number of moves
+    public int superEggDrop(int k, int n) {
+        memo = new int[n + 1][k + 1];
+        return findMinMoves(n, k);
+    }
+
+    // Helper method using Depth-First Search (DFS) to find the minimum moves
+    private int findMinMoves(int floors, int eggs) {
+        // The base case: if there are no floors, no moves are required
+        if (floors < 1) {
+            return 0;
+        }
+        // If there's only one egg, we need to check each floor starting from the first
+        if (eggs == 1) {
+            return floors;
+        }
+        // If we have already computed this state, return the stored result
+        if (memo[floors][eggs] != 0) {
+            return memo[floors][eggs];
+        }
+
+        // Binary search to find the critical floor in optimal manner
+        int low = 1, high = floors;
+        while (low < high) {
+            // Note: Using bitwise right-shift to divide by 2
+            int mid = (low + high + 1) >> 1;
+          
+            // Recursively find outcomes for dropping an egg from the mid floor
+            // a: egg breaks (decrease egg count, lower half)
+            // b: egg doesn't break (same egg count, upper half)
+            int a = findMinMoves(mid - 1, eggs - 1);
+            int b = findMinMoves(floors - mid, eggs);
+
+            // Move our search space according to which scenario is worse
+            // as we want to prepare for the worst case
+            if (a <= b) {
+                low = mid;
+            } else {
+                high = mid - 1;
+            }
+        }
+      
+        // Combine the worst case and add one for the current move
+        memo[floors][eggs] = Math.max(findMinMoves(low - 1, eggs - 1), findMinMoves(floors - low, eggs)) + 1;
+
+        // Return the minimum moves required
+        return memo[floors][eggs];
+    }
+}
