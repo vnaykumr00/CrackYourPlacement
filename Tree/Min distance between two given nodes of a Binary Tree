@@ -1,0 +1,43 @@
+class GfG {
+    Node LCA(Node root, int a ,int b){
+        if(root==null || root.data==a || root.data==b){
+            return root;
+        }
+        Node leftlca=LCA(root.left,a,b);
+        Node rightlca=LCA(root.right,a,b);
+        if(leftlca==null){
+            return rightlca;
+        }
+        if(rightlca==null){
+            return leftlca;
+        }
+        return root;
+    }
+    int Dist(Node root,int n){
+        if(root==null){
+            return -1;
+        }
+        if(root.data==n){
+            return 0;
+        }
+        int leftDist=Dist(root.left,n);
+        int rightDist=Dist(root.right,n);
+        if(leftDist==-1 && rightDist==-1){
+            return -1;
+        }else if(leftDist==-1){
+            return rightDist+1;
+        }else{
+            return leftDist+1;
+        }
+    }
+    int findDist(Node root, int a, int b) {
+        // Your code here
+        //1.find lowest common ancestor
+        Node lca=LCA(root,a,b);
+        //2.Distance between lca and a
+        int Dist1=Dist(lca,a);
+        //3.Distance between lca and b
+        int Dist2=Dist(lca,b);
+        return Dist1+Dist2;
+    }
+}
