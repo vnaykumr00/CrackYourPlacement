@@ -1,0 +1,16 @@
+ArrayList<Integer> search(String pattern, String text)
+    {
+        // your code here
+        ArrayList<Integer> arr= new ArrayList<Integer>();
+        
+        int n= text.length();
+        int m= pattern.length();
+        
+        for(int x=0; x<= n-m ; x++)
+        {
+            if(text.substring(x,m+x).equals(pattern))
+                arr.add(x+1);
+        }
+        
+        return arr;
+    }
