@@ -1,0 +1,146 @@
+class Solution {
+    public Node subLinkedList(Node head1, Node head2) {
+        Node h1 = head1;
+        Node h2 = head2;
+        Node hh1 = head1;
+        Node hh2 = head2;
+        while(h1 != null && h1.data == 0){
+            hh1 = h1;
+            h1 = h1.next;
+        }
+        while(h2 != null && h2.data == 0){
+            hh2 = h2;
+            h2 = h2.next;
+        }
+        if(hh1.data == 0 && h1 == null && hh2.data == 0 && h2 == null){
+            return new Node(0);
+        }
+        head1 = h1;
+        head2 = h2;
+        Node hl1 = head1;
+        Node hl2 = head2;
+        int count1 = 0;
+        int count2 = 0;
+        while(hl1 != null){
+            hl1 = hl1.next;
+            count1++;
+        }
+        while(hl2 != null){
+            hl2 = hl2.next;
+            count2++;
+        }
+        if(count1 < count2){
+            Node head1c = head1;
+            head1 = head2;
+            head2 = head1c;
+        } else if(count1 == count2){
+            Node ch1 = head1;
+            Node ch2 = head2;
+            
+            while(ch1 != null && ch1.data == ch2.data){
+                ch1 = ch1.next;
+                ch2 = ch2.next;
+            }
+            if(ch1 != null && ch1.data < ch2.data){
+                Node head1c = head1;
+                head1 = head2;
+                head2 = head1c;
+            }
+        }
+        Node ans = new Node(0);
+        Node ac = ans;
+        boolean flag = false;
+        head1 = reverse(head1);
+        head2 = reverse(head2);
+        Node h1c = head1;
+        Node h2c = head2;
+        while(h1c != null && h2c != null){
+            if(!flag){
+                int dig1 = h1c.data;
+                int dig2 = h2c.data;
+                if(dig1 > dig2){
+                    int dig = dig1 - dig2;
+                    Node node = new Node(dig);
+                    ac.next = node;
+                    ac = ac.next;
+                } else if(dig1 < dig2){
+                    flag = true;
+                    dig1 = 10 + dig1;
+                    int dig = dig1 - dig2;
+                    Node node = new Node(dig);
+                    ac.next = node;
+                    ac = ac.next;
+                } else{
+                    int dig = 0;
+                    Node node = new Node(0);
+                    ac.next = node;
+                    ac = ac.next;
+                }
+            } else{
+                int dig1 = h1c.data;
+                int dig2 = h2c.data + 1;
+                if(dig1 > dig2){
+                    flag = false;
+                    int dig = dig1 - dig2;
+                    Node node = new Node(dig);
+                    ac.next = node;
+                    ac = ac.next;
+                } else if(dig1 < dig2){
+                    flag = true;
+                    dig1 = 10 + dig1;
+                    int dig = dig1 - dig2;
+                    Node node = new Node(dig);
+                    ac.next = node;
+                    ac = ac.next;
+                } else{
+                    flag = false;
+                    int dig = 0;
+                    Node node = new Node(0);
+                    ac.next = node;
+                    ac = ac.next;
+                }
+            }
+
+            h1c = h1c.next;
+            h2c = h2c.next;
+        }
+        while(h1c != null){
+            if(flag){
+               int dig1 = h1c.data - 1;
+               if(dig1 < 0){
+                   dig1 += 10;
+               } else{
+                   flag = false;
+               }
+               Node node = new Node(dig1);
+               ac.next = node;
+               ac = ac.next;
+            } else{
+                int dig1 = h1c.data;
+                Node node = new Node(dig1);
+                ac.next = node;
+                ac = ac.next;
+            }
+            h1c = h1c.next;
+        }
+        ans = ans.next;
+        ans = reverse(ans);
+        while(ans != null && ans.data == 0){
+            ans = ans.next;
+        }
+        if(ans == null){
+            return new Node(0);
+        }
+        return ans;
+    }
+    public Node reverse(Node head){
+        if(head == null || head.next == null){
+            return head;
+        }
+        Node rh = reverse(head.next);
+        head.next.next = head;
+        head.next = null;
+        return rh;
+    }
+
+}
