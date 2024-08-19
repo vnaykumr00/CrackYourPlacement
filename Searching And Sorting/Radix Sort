@@ -1,0 +1,45 @@
+class Solution
+{
+    static void radixSort(int arr[], int n) 
+    { 
+        // code here 
+        int max;max=arr[0];
+        for(int i=1;i<n;i++)
+        {
+            if(arr[i]>max)
+            {
+                max=arr[i]; // storing maximum number as the no of digits is decided based on the number of digits of the max number.
+            }
+        }
+        for(int exp = 1;(max/exp)>0;exp=exp*10)
+        {
+            countingSort(arr,n,exp);
+        }
+    }
+    static void countingSort(int arr[],int n,int exp)
+    {
+        int count[] = new int[10]; // for digits 0-9.
+        int output[] = new int[n]; // for sorted array of size n
+        for(int i=0;i<10;i++)
+        {
+            count[i]=0; //initialising count of every digit as 0.
+        }
+        for(int i=0;i<n;i++)
+        {
+            count[(arr[i]/exp)%10]++; // counting occurence of digits of a number starting from the last digit to all the way upto the first digit.
+        }
+        for(int i=1;i<10;i++)
+        {
+            count[i]=count[i]+count[i-1]; // how many numbers, lesser than or equal to it, occur before the given number?
+        }
+        for(int i=n-1;i>=0;i--) // started loop from n-1 to maintain stability.
+        {
+            output[count[(arr[i]/exp)%10]-1]=arr[i]; //element is placed exactly where all the elements to its left is lesser.
+            count[(arr[i]/exp)%10]--; // decreasing count of occurence as the number is already placed.
+        }
+        for(int i=0;i<n;i++)
+        {
+            arr[i]=output[i]; //copy all the elements to the original array.
+        }
+    }
+}
