@@ -1,0 +1,41 @@
+class Solution {
+    void reorderlist(Node head) {
+        //speed pointers
+        Node tur=head;
+        Node hare=head;
+        //declaration of stack
+        Stack<Node> st=new Stack<>();
+        
+        //div in half
+        while(hare!=null && hare.next!=null){
+            hare=hare.next.next;
+            tur=tur.next;
+        }
+        Node dummyhead=tur.next;
+        tur.next=null;
+        //filling in stack
+        while(dummyhead!=null){
+            Node stn=dummyhead;
+            st.push(stn);
+            dummyhead=dummyhead.next;
+        }
+        
+        
+        Node temp=head;
+        Node nextemp=head.next;
+    while(nextemp!=null){
+        //if stack is empty then skip the part of adding top stack element
+        if(!st.isEmpty()){
+        temp.next=st.pop();
+        temp=temp.next;
+        }
+        temp.next=nextemp;
+        temp=temp.next;
+        nextemp=nextemp.next;
+    }
+        
+        return;
+        
+    }
+}
+
