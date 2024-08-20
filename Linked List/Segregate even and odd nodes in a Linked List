@@ -1,0 +1,29 @@
+class Solution{
+    Node divide(int N, Node head){
+        
+        Node eveno=new Node(-1);
+        Node oddno=new Node(-1);
+        Node even=eveno;
+        Node odd=oddno;
+        Node temp=head;
+        
+        
+        while(temp!=null){
+            if((temp.data%2)==0){
+                even.next=temp;
+                even=temp;
+            }
+            else{
+                odd.next=temp;
+                odd=temp;
+            }
+            
+            temp=temp.next;
+        }
+        
+        even.next=oddno.next;
+        odd.next=null;
+        return eveno.next;
+    }
+}
+
