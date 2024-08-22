@@ -1,0 +1,65 @@
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+typedef long long ll;
+
+int main(void)
+{
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+
+	ll l;
+	ll r;
+	ll m;
+	ll ans;
+	ll last;
+	int testCases;
+	ll stalls[100000];
+
+	cin >> testCases;
+
+	while (testCases--)
+	{
+		int n;
+		int c;
+		cin >> n >> c;
+
+		for (int i = 0; i < n; ++i)
+			cin >> stalls[i];
+
+		sort(stalls, stalls + n);
+		
+		l = 0;
+		ans = 0;
+		r = stalls[n - 1] - stalls[0];
+		while (l < r)
+		{
+			int cows = 1;
+			last = stalls[0];
+			m = (l + r) >> 1LL;
+		
+			for (int i = 1; i < n; ++i)
+			{
+				if (stalls[i] - last >= m)
+				{
+					++cows;
+					last = stalls[i];
+				}
+			}
+
+			if (c <= cows)
+			{
+				ans = m;
+				l = m + 1;
+			}
+			else
+				r = m;
+		}
+		
+		cout << ans << "\n";
+	}
+
+	return 0;
+}
