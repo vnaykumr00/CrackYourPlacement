@@ -1,0 +1,53 @@
+
+
+// User function Template for Java
+class Solution {
+    public static int getMinOutOfTwo(int x,int y){
+        return (x<y)?x:y;
+    }
+    
+    public static int getMax(int amount[]){
+        int index = 0;
+        int val = Integer.MIN_VALUE;
+        for(int i=0;i<amount.length;i++){
+            if(amount[i]>val){
+                val = amount[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+    public static int getMin(int amount[]){
+        int index = 0;
+        int val = Integer.MAX_VALUE;
+        for(int i=0;i<amount.length;i++){
+            if(amount[i]<val){
+                val = amount[i];
+                index = i;
+            }
+        }
+        return index;
+    }
+    public void calculate(int[] amount,int[][] ans){
+        int maxdebt=getMin(amount);
+        int maxcredit=getMax(amount);
+        if(amount[maxcredit]==0 && amount[maxdebt]==0)
+            return;
+        int min=getMinOutOfTwo(amount[maxcredit],-amount[maxdebt]);
+        amount[maxcredit] -=min;
+        amount[maxdebt] +=min;
+        ans[maxdebt][maxcredit]=min;
+        calculate(amount,ans);
+    }
+    public int[][] minCashFlow(int[][] t, int n) {
+        int[] amount=new int[n];
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                amount[i]+=(t[j][i]-t[i][j]);
+            }
+        }
+        int ans[][] =new int[n][n];
+        calculate(amount,ans);
+        return ans;
+    }
+}
