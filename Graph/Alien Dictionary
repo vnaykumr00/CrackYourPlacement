@@ -1,0 +1,63 @@
+
+
+// User function Template for Java
+
+class Solution {
+    public String findOrder(String[] dict, int n, int k) {
+        List<Integer>[] adj = new ArrayList[k];
+        for (int i = 0; i < k; i++) {
+            adj[i] = new ArrayList<>();
+        }
+
+        // Step 2: Build the graph by comparing adjacent words
+        for (int i = 0; i < n - 1; i++) {
+            String word1 = dict[i];
+            String word2 = dict[i + 1];
+            int minLength = Math.min(word1.length(), word2.length());
+
+            for (int j = 0; j < minLength; j++) {
+                if (word1.charAt(j) != word2.charAt(j)) {
+                    int u = word1.charAt(j) - 'a';
+                    int v = word2.charAt(j) - 'a';
+                    adj[u].add(v);
+                    break;
+                }
+            }
+        }
+
+        // Step 3: Topological Sort using Kahn's algorithm (BFS)
+        int[] indegree = new int[k];
+        for (int i = 0; i < k; i++) {
+            for (int v : adj[i]) {
+                indegree[v]++;
+            }
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < k; i++) {
+            if (indegree[i] == 0) {
+                queue.add(i);
+            }
+        }
+
+        StringBuilder order = new StringBuilder();
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            order.append((char) (u + 'a'));
+
+            for (int v : adj[u]) {
+                indegree[v]--;
+                if (indegree[v] == 0) {
+                    queue.add(v);
+                }
+            }
+        }
+
+        // If all characters are not in the order, it means there was a cycle
+        if (order.length() != k) {
+            return ""; // invalid order, possibly due to a cycle
+        }
+
+        return order.toString();
+    }
+}
