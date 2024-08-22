@@ -1,0 +1,29 @@
+
+
+class Solution {
+
+    public static ArrayList<ArrayList<Integer>> minDifference(int n, int[] arr) {
+        // code here
+        int sum=0;
+        for(int x:arr){
+            sum+=x;
+        }
+        int []temp = findIt(0,sum,arr,0,0,n);
+        ArrayList<ArrayList<Integer>> r = new ArrayList<>();
+        r.add(new ArrayList<Integer>(){{add(temp[0]);}});
+        r.add(new ArrayList<Integer>(){{add(temp[1]);}});
+        return r;
+    }
+    public static int[] findIt(int sum1, int sum2, int[] arr, int i, int c,int n){
+        if(c==n/2){
+            return new int[]{sum1, sum2-sum1,Math.abs(sum2-2*sum1)};
+        }
+        if(c > n/2||i == n){
+            return new int[]{0 , 0, Integer.MAX_VALUE};
+        }
+        int []temp1=findIt(sum1+arr[i],sum2,arr,i+1,c+1,n);
+        int []temp2=findIt(sum1,sum2,arr,i+1,c,n);
+        return temp2[2]>temp1[2]?temp1:temp2;
+    }
+}
+        
