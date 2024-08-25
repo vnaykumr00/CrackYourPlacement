@@ -1,0 +1,51 @@
+class Solution
+{
+    public int[][] ShortestDistance(int[][] matrix)
+    {
+        // Code here
+        
+        int[][] res = new int[1][1];
+        res[0][0] = -1;
+    
+        int[][] path = new int[matrix.length][matrix[0].length];
+        
+        if(findPath(matrix, 0, 0, path) == false) {
+            return res;
+        } 
+        
+        return path;
+    }
+    
+    public boolean isSafe(int[][] matrix, int r, int c) {
+        if(r >= matrix.length || c >= matrix[0].length || matrix[r][c] == 0) {
+            return false;
+        }
+        
+        return true;
+    } 
+    
+    public boolean findPath(int[][] matrix, int r, int c, int[][] path) {
+        if(r == matrix.length-1 && c == matrix[0].length-1) {
+            path[r][c] = 1;
+            return true;
+        }
+        
+        if(isSafe(matrix, r, c)) {
+            path[r][c] = 1;
+            
+            for(int i=1;i<=matrix[r][c];i++) {
+                if(findPath(matrix, r, c+i, path)) {
+                    return true;
+                }
+                
+                if(findPath(matrix, r+i, c, path)) {
+                    return true;
+                }
+            }
+            
+            path[r][c] = 0;
+        }
+        
+        return false;
+    }
+}
