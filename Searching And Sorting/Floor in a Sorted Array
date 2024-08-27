@@ -1,0 +1,18 @@
+static int findFloor(long arr[], int n, long x) {
+        int s=0;
+        int e=n-1;
+        int ans=-1;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(arr[mid]==x){
+                return mid;
+            }else if(x<arr[mid]){
+                e=mid-1;
+            }else{
+                int ans1=mid;
+                ans=Math.max(ans,ans1);
+                s=mid+1;
+            }
+        }
+        return ans;
+    }
