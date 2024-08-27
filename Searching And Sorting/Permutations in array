@@ -1,0 +1,29 @@
+public boolean isPossible(int k, int[] arr1, int[] arr2) {
+        // Your code goes here.
+        
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        int size1 = arr1.length;
+        int size2 = arr2.length;
+        int start =0, end = size2-1;
+        
+        while(start<end){
+            int temp = arr2[start];
+            arr2[start] = arr2[end];
+            arr2[end]= temp;
+            start++;
+            end--;
+            
+        }
+        
+        // if(size1==size2){
+            for(int i=0; i<size1; i++){
+                if(arr1[i]+arr2[i] < k){
+                    return false;
+                }
+            }
+            
+        // }
+        
+        return true;
+    }
