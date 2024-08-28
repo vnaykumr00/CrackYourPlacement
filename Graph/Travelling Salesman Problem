@@ -1,0 +1,39 @@
+
+
+// User function Template for Java
+
+class Solution {
+   public int total_cost(int[][] cost) {
+    int n = cost.length;
+    int dp[][] = new int[n][1 << n];
+for(int temp[]:dp)Arrays.fill(temp, -1);
+
+    return rec(cost, 0, dp, 1);  // Start with index 0 and bitmask 1, marking the first node visited
+}
+
+public int rec(int[][] cost, int index, int dp[][], int bitmask) {
+    if (bitmask == (1 << cost.length) - 1) {
+        // All nodes visited, return to the start
+        return cost[index][0];  // Assuming cost[index][0] gives the cost to return to the start
+    }
+    
+    if (dp[index][bitmask] != -1){ 
+    return dp[index][bitmask];}
+    
+    int ans = Integer.MAX_VALUE;
+    
+    for (int i = 0; i < cost.length; i++) {
+    // if(bitmask==9)System.out.println(i);
+        if ((bitmask & (1 << i)) == 0) { 
+               
+             // If i-th node is not visited
+            ans = Math.min(ans, rec(cost, i, dp, bitmask | (1 << i)) + cost[index][i]);
+            //  if(bitmask==9)System.out.println(ans);
+        }
+    }
+    // if(bitmask==15)System.out.println(bitmask);
+    dp[index][bitmask] = ans;
+    return ans;
+}
+
+}
