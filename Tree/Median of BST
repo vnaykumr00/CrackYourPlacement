@@ -1,0 +1,23 @@
+class Tree{
+    static int count=0;
+    static float res=0;
+    public static float findMedian(Node root){
+        count=0; res=0.0f;
+        int h=elements(root);
+        median(root,h);
+        return res;
+    }
+    public static void median(Node root,int h){
+        if(root==null)return ;
+        median(root.left,h);
+        count++;
+        if(h%2==0 && count==h/2) res=root.data;
+        if(h%2==0 && count==((h/2)+1))res=(res+root.data)/2.0f;
+        if(h%2!=0 && count==((h/2)+1)) res= root.data;
+        median(root.right,h);
+    }
+    public static int elements(Node root){
+        if(root==null) return 0;
+        return 1+elements(root.left)+elements(root.right);
+    }
+}
